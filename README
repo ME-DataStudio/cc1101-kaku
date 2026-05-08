@@ -1,0 +1,21 @@
+So trying to control my KAKU from HAOS. The first step is to get a cc1101 working on an ESP32 (a S3 in my case).
+
+I use these two libraries:
+*  https://github.com/1technophile/NewRemoteSwitch
+*  https://github.com/LSatan/SmartRC-CC1101-Driver-Lib
+
+My cc1101 has following Pinout:
+cc1101        ESP32-S3
+GND        -> GND
+3.3v       -> 3v3
+GDO0       -> 39
+CSN        -> 40
+SCK        -> 9
+MOSI       -> 42
+GDO1/GOD1  -> 12
+GDO2       -> 13
+
+I used the Learncode_cc1101 example and modified it:
+- set my SPI pins (cc1101.setSpiPin())
+- set the GDO pins (cc1101.setGDO())
+- changed the interrupt pin to GDO2 for newRemoteReceiver
