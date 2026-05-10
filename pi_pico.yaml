@@ -25,6 +25,11 @@ wifi:
     ssid: "Kaku Fallback Hotspot"# Configuration entry
     password: "password"
 
+spi:
+  clk_pin: SCK
+  mosi_pin: MOSI
+  miso_pin: MISO
+
 cc1101:
   cs_pin: CS
   frequency: 433.92MHz
