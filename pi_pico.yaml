@@ -33,3 +33,18 @@ spi:
 cc1101:
   cs_pin: CS
   frequency: 433.92MHz
+  packet_mode: true
+
+remote_transmitter:
+  pin: GPIO20  # Must match GDO0
+  carrier_duty_percent: 100%
+  on_transmit:
+    then:
+      - cc1101.begin_tx
+  on_complete:
+    then:
+      - cc1101.begin_rx
+
+remote_receiver:
+  pin: GPIO21  # Must match GDO2
+  dump: all
