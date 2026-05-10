@@ -25,12 +25,6 @@ wifi:
     ssid: "Kaku Fallback Hotspot"# Configuration entry
     password: "password"
 
-output:
-  - platform: gpio
-    led_pin: LED
-    #default pico spi
-    miso_pin: MISO # GPIO 16
-    mosi_pin: MOSI # GPIO 19
-    sck_pin: SCK   # GPIO 18
-    cs_pin: SS     # GPIO 17
-    id: cc1101
+cc1101:
+  cs_pin: CS
+  frequency: 433.92MHz
