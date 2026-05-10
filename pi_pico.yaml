@@ -1,0 +1,13 @@
+# Configuration entry
+rp2040:
+  board: rpipicow
+
+output:
+  - platform: gpio
+    pin: LED
+    #default pico spi
+    pin: MISO #	GPIO 16
+    pin: MOSI	#	GPIO 19
+    pin: SCK	# GPIO 18
+    pin: SS	  #	GPIO 17
+    id: cc1101
