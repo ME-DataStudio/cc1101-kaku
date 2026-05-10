@@ -1,6 +1,29 @@
-# Configuration entry
+esphome:
+  name: kaku
+
 rp2040:
   board: rpipicow
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "key made with wizard"
+
+ota:
+  - platform: esphome
+
+
+wifi:
+  ssid: "ssid"
+  password: "password"
+
+  # Enable fallback hotspot in case wifi connection fails
+  ap:
+    ssid: "Kaku Fallback Hotspot"# Configuration entry
+    password: "password"
 
 output:
   - platform: gpio
