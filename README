@@ -18,4 +18,4 @@ GDO2       -> 13
 I used the Learncode_cc1101 example and modified it:
 - set my SPI pins (cc1101.setSpiPin())
 - set the GDO pins (cc1101.setGDO())
-- changed the interrupt pin to GDO2 for newRemoteReceiver
+- changed the interrupt pin to GDO2 for newRemoteReceiver (GDO0 is used for transmit)
