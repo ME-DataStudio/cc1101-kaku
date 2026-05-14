@@ -20,30 +20,46 @@
  *  ----------------------------------------------------------
  *
  */
+
 #include <ELECHOUSE_CC1101_SRC_DRV.h>
 #include <NewRemoteReceiver.h>
+
 
 
 //int pin = 0; // int for Receive pin.
 //int led = 4; // pin for Led.
 
-int gdo2=13;
-//sck=G9
-//mosi=g42
-//god1=g12
-//god0=g39
-//cs=g40
+
+//esp32-s3-box
+//int gdo2Pin=13;
+//int sckPin=9;
+//int mosiPin=42;
+//int god1Pin=12;
+//int gdo0Pin=39;
+//int csnPin=40;
+
+//RP2040 pins SPI0
+byte sckPin = 18;   
+byte god1Pin = 16; //=miso
+byte mosiPin = 19;
+byte csnPin = 17;
+int gdo0Pin = 20;
+int gdo2Pin = 21;
 
 boolean codeLearned = false;
 unsigned long learnedAddress;
 byte learnedUnit;
+NewRemoteCode remoteCode;
 
 void setup() {
+  delay(1000);
   Serial.begin(115200);  
   Serial.println("Setting up cc1101");
+  
+//  SPI.beginTransaction(SPISettings(14000000, MSBFIRST, SPI_MODE0));
 //CC1101 Settings:                (Settings with "//" are optional!)
-  ELECHOUSE_cc1101.setSpiPin(/*sck*/9,/*miso*/12,/*mosi*/42,/*ss/cs*/40);
-  ELECHOUSE_cc1101.setGDO(39,13);
+  ELECHOUSE_cc1101.setSpiPin(sckPin,/*miso*/god1Pin,mosiPin,csnPin);
+  ELECHOUSE_cc1101.setGDO(gdo0Pin,gdo2Pin);
   ELECHOUSE_cc1101.Init();            // must be set to initialize the cc1101!
 //ELECHOUSE_cc1101.setRxBW(812.50);  // Set the Receive Bandwidth in kHz. Value from 58.03 to 812.50. Default is 812.50 kHz.
 //ELECHOUSE_cc1101.setPA(10);       // set TxPower. The following settings are possible depending on the frequency band.  (-30  -20  -15  -10  -6    0    5    7    10   11   12)   Default is max!
@@ -55,11 +71,12 @@ void setup() {
   //pinMode(led, OUTPUT);
 
   // Init a new receiver on interrupt pin 0, minimal 2 identical repeats, and callback set to processCode.
-  NewRemoteReceiver::init(gdo2, 2, processCode);
+  NewRemoteReceiver::init(gdo2Pin, 2, processCode);
 }
 
 void loop() {
   // Blink led until a code has been learned
+
   if (!codeLearned) {
     digitalWrite(13, HIGH);
     delay(500);
@@ -72,9 +89,10 @@ void loop() {
 void processCode(NewRemoteCode receivedCode) {
   // A code has been received.
   // Do we already know the code?
-  Serial.println(receivedCode.address);
+  Serial.println(receivedCode.);
   Serial.println(receivedCode.unit);
   Serial.println(receivedCode.switchType);
+  Serial.println(receivedCode.period);
   if (!codeLearned) {
     // No! Let's learn the received code.
     learnedAddress = receivedCode.address;
